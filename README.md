@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-list popular boardgames with their basic attributes
+list popular boardgames and give access to their basic attributes
 
 ## Development
 
