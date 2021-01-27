@@ -1,0 +1,34 @@
+1.Welcome the User
+2.lists top 10 boardgames by rank
+3.prompt user to input a number 1-10
+    4.check if input is valid
+        - invaild input message, go back to step 3
+        -print the info for the game corresponding to input
+            5. ask user if they want to know how to play the game 
+                -if yes return a href to the rule book then step 6
+                -if no
+                
+                    ?????????????????????????????????????????????????
+                    - would you like to look at games similar to this 
+                        -if yes
+                            - number of players ?
+                            - price ?
+                            - min_age ?
+                            - year published ?
+                                -filter game list by params choosen
+                                ???????????????????????????????????
+
+            6. ask would you like to look at a different game?
+                -if yes, 2 then 3 
+                -if no
+                    -ask are you sure? 
+                        -if no then step 6
+                        - if yes, exit app 
+
+other features: 
+    -type exit at anytime to end application
+    - maybe search for similar games to this 
+        - number of players 
+        - price 
+        - min_age 
+        - year published

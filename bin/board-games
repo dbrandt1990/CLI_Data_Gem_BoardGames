@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require './lib/board_games'
+require 'pry'
+
+
+BoardGames::CLI.new.call
