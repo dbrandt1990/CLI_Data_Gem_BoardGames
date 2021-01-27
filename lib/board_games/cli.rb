@@ -25,13 +25,47 @@ class BoardGames::CLI
         end
     end
 
+    # def valid_filter_input(input)
+    #     if input[0] && input[1] 
+    #        true
+    #     end
+    # end
+
+    # def filter_games(attribute, value)
+ 
+    #    list_games(@games.map{|game| game.year_published == value})
+    # end
+    
+    # def filter_menu
+    #     puts "\n-------WELCOME TO THE FILTER MENU--------\n"
+    #     puts "TYPE the attribute followed by a comma, and then the value you'd like to filter by (limit 1):
+    #     ---price, $100 <-maximum price
+    #     ---year_published, 2002 <- year published
+    #     ---players, 1 - 5 <- min and max players
+    #     ---playtime, 60 - 90 <- min and max playtime in minutes
+    #     ---min_age, 13 <- min age"
+
+    #     input = gets.strip
+    #     input = input.split(',')
+    #     if valid_filter_input(input)
+    #     attribute = input[0].strip
+    #     value = input[1].strip  
+    #     filter_games(attribute,value)
+    #     else
+    #         puts "INVALID input, please be sure to use the formate given."
+    #     end
+    # end
+
+
     def menu
         number = 10 #default 10, if 'more'/'less' is typed, add/remove 10 to this to change the length of game list.
         input  = nil
         while input != "exit"
-        puts "Enter the number of the game you'd like to know more about, type 'list' to  view games again, 'more'/'less to see more or less games  or type 'exit'."
+        puts "Enter the number of the game you'd like to know more about, type 'list' to  view games again, 'list more' or 'less to see more or less games  or type 'exit'."
+        # puts "Type 'filter' open filter menu."
             input = gets.strip 
-
+            # if input == "filter"
+            #     filter_menu
             if input == "list"
                 list_games(@games, number)
 
@@ -54,7 +88,7 @@ class BoardGames::CLI
                puts "Year: #{game.year_published}"
                puts "Players: #{game.players}"
                puts "Playtime: #{game.playtime} minutes" 
-               puts "Ages: #{game.min_age}"
+               puts "Ages: #{game.min_age}+"
                
                puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE 'more', or type 'list' to view games again \n\n"
                input = gets.strip

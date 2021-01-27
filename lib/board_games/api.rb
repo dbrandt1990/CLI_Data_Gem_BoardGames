@@ -20,7 +20,7 @@ class BoardGames::API
             year_published = game['year_published']
             players = "#{game['min_players']} - #{game['max_players']}"
             playtime = "#{game['min_playtime']} - #{game['max_playtime']}"
-            min_age = "#{game['min_age']}+"
+            min_age = "#{game['min_age']}"
             description = game['description_preview'].gsub('"',"'").strip 
             rules_url = game['rules_url']
             BoardGames::Game.new(image, name, price, year_published, players, playtime, min_age, description, rules_url)
