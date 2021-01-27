@@ -25,7 +25,7 @@ class BoardGames::CLI
         end
     end
 
-    def menu 
+    def menu
         number = 10 #default 10, if 'more'/'less' is typed, add/remove 10 to this to change the length of game list.
         input  = nil
         while input != "exit"

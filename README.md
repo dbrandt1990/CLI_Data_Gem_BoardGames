@@ -1,8 +1,10 @@
 # BoardGames
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/board_games`. To experiment with that code, run `bin/console` for an interactive prompt.
+This Gem is meant to list the top ten board games according to Board Game Atlas, and give the the user the options to:
 
-TODO: Delete this and the text above, and describe your gem
+- see details about game, including a link to the rule book if availible
+- get a more indepth description by using the description command
+- increase/decrease the ranking list by 10 with 'more' or 'less' commands
 
 ## Installation
 
@@ -22,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+list popular boardgames with their basic attributes
 
 ## Development
 
