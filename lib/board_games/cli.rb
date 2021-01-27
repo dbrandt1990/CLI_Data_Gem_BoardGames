@@ -1,50 +1,69 @@
-#CLI controller
+require_relative './game.rb'
+require_relative './api.rb'
+
 class BoardGames::CLI 
-    attr_accessor :games
 
     def call 
-     list_games
+     create_games_list
+     list_games(@games)
      menu
      goodbye
     end
 
-    def list_games 
-        puts 'Top 10 boardgames:'
-        #gets from the doc and list the games in order
-        #fetch_games = BoardGames::API.new()
-        #@games = fetch_games.fetch_games
-        @games = [Game.new(title: "Spirit Island", price: "$80", year_published: "2019", players: "2-6", playtime: "90-120mins", min_age: "10+", description:"blank description", rules_url:"http://google.com"),
-        Game.new(title: "Pandemic", price: "$35", year_published: "2010", players: "2-6", playtime: "60-90mins", min_age: "10+", description:"blank description")]
-        @games.each_with_index{|game, i| puts "#{i+1}. #{game.title} - #{game.players} players"}
+    def create_games_list 
+        BoardGames::API.new().create_game_objects
+        @games = BoardGames::Game.all
+        puts "Sorry, there was an error loading the games list." if @games == []
+    end
+
+    def list_games(games, number = 10)
+        puts "\nTop #{number} boardgames:" 
+        games.each_with_index do |game, i|
+            if i < number
+            puts "#{i + 1}. #{game.name}"
+            end
+        end
     end
 
     def menu 
+        number = 10 #default 10, if 'more'/'less' is typed, add/remove 10 to this to change the length of game list.
         input  = nil
         while input != "exit"
-        puts "Enter the number of the game you'd like to know more about, type list to see games again, or type 'exit'."
+        puts "Enter the number of the game you'd like to know more about, type 'list' to  view games again, 'more'/'less to see more or less games  or type 'exit'."
             input = gets.strip 
 
             if input == "list"
-                list_games
-            elsif @games[input.to_i - 1] && input.to_i != 0
+                list_games(@games, number)
+
+            elsif input == "more"
+                number += 10
+                list_games(@games, number)
+                if number == 100
+                    puts "\n!!!THE LIST ONLY GOES TO 100!!!\n"
+                end
+            elsif input == "less"
+                number -= 10 if number > 10
+                list_games(@games, number)
+
+
+            elsif @games[input.to_i - 1] && input.to_i != 0 && input.to_i <= number
                game = @games[input.to_i - 1] 
-               puts "Title: #{game.title}" 
-               puts "Price: #{game.price}"
+               puts "\nName: #{game.name}" 
+               puts "Price: $#{game.price}"
                puts "Year: #{game.year_published}"
-               puts "Players: #{game.players}" # min - max players ex: 2-6  min_players/max_players
-               puts "Playtime: #{game.playtime}" #this should be the min - max ex: 90 - 120mins min_playtime/max_playtime
+               puts "Players: #{game.players}"
+               puts "Playtime: #{game.playtime} minutes" 
                puts "Ages: #{game.min_age}"
-               puts "Description: #{game.description}"
-               puts "Check the rulebook out here: #{game.rules_url}"
+               puts "\nCheck the rulebook out here: #{game.rules_url}"
                
-               puts "Find more games like this by typing 'find' the features you want filter by, EX: players, playtime, ages etc, or type list to start over."
-            # gets input and applies it to find_by method then lists the games that fit the criteria.
-            # take typed input, and grab the value of that attribute from the current game obj. pass both to find_by(attribute, value)
-            # find_by(input, game.input) to get the attribute from input, and get the value from the current game obj
+               puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE 'DESCRIPTION', or type 'list' to view games again \n\n"
+               input = gets.strip
+               if input.downcase == "description"
+                puts "\n#{game.description} \n\n"
+               end
             else
                 puts "Invalid input."
             end
-         
         end
     end
 
