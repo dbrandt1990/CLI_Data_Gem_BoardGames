@@ -35,7 +35,7 @@ class BoardGames::CLI
             if input == "list"
                 list_games(@games, number)
 
-            elsif input == "more"
+            elsif input == "list more"
                 number += 10
                 list_games(@games, number)
                 if number == 100
@@ -48,18 +48,19 @@ class BoardGames::CLI
 
             elsif @games[input.to_i - 1] && input.to_i != 0 && input.to_i <= number
                game = @games[input.to_i - 1] 
+               puts "\n 'CLICK TO SEE IMAGE #{game.image}"
                puts "\nName: #{game.name}" 
                puts "Price: $#{game.price}"
                puts "Year: #{game.year_published}"
                puts "Players: #{game.players}"
                puts "Playtime: #{game.playtime} minutes" 
                puts "Ages: #{game.min_age}"
-               puts "\nCheck the rulebook out here: #{game.rules_url}"
                
-               puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE 'DESCRIPTION', or type 'list' to view games again \n\n"
+               puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE 'more', or type 'list' to view games again \n\n"
                input = gets.strip
-               if input.downcase == "description"
+               if input.downcase == "more"
                 puts "\n#{game.description} \n\n"
+                puts "\nCheck the rulebook out here: #{game.rules_url}\n\n"
                end
             else
                 puts "Invalid input."

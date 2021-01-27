@@ -14,6 +14,7 @@ class BoardGames::API
     
     def create_game_objects
         fetch_games.each_with_index do |game, i|
+            image = game['image_url']
             name = game['name']
             price = game['price']
             year_published = game['year_published']
@@ -22,7 +23,7 @@ class BoardGames::API
             min_age = "#{game['min_age']}+"
             description = game['description_preview'].gsub('"',"'").strip 
             rules_url = game['rules_url']
-            BoardGames::Game.new(name, price, year_published, players, playtime, min_age, description, rules_url)
+            BoardGames::Game.new(image, name, price, year_published, players, playtime, min_age, description, rules_url)
         end
     end
 end
