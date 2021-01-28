@@ -62,13 +62,11 @@ class BoardGames::CLI
         input  = nil
         while input != "exit"
         puts "Enter the number of the game you'd like to know more about, type 'list' to  view games again, 'list more' or 'less to see more or less games  or type 'exit'."
-        # puts "Type 'filter' open filter menu."
+
             input = gets.strip 
-            # if input == "filter"
-            #     filter_menu
+
             if input == "list"
                 list_games(@games, number)
-
             elsif input == "list more"
                 number += 10
                 list_games(@games, number)
@@ -91,10 +89,14 @@ class BoardGames::CLI
                puts "Ages: #{game.min_age}+"
                
                puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE 'more', or type 'list' to view games again \n\n"
+
                input = gets.strip
+               
                if input.downcase == "more"
                 puts "\n#{game.description} \n\n"
                 puts "\nCheck the rulebook out here: #{game.rules_url}\n\n"
+               elsif input.downcase == "list"
+                list_games(@games, number)
                end
             else
                 puts "Invalid input."
