@@ -18,8 +18,8 @@ class BoardGames::API
             name = game['name']
             price = game['price']
             year_published = game['year_published']
-            players = "#{game['min_players']} - #{game['max_players']}"
-            playtime = "#{game['min_playtime']} - #{game['max_playtime']}"
+            players = "#{game['min_players']}-#{game['max_players']}"
+            playtime = "#{game['min_playtime']}-#{game['max_playtime']}"
             min_age = "#{game['min_age']}"
             description = game['description_preview'].gsub('"',"'").strip 
             rules_url = game['rules_url']
