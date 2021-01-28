@@ -23,38 +23,35 @@ class BoardGames::CLI
             puts "#{i + 1}. #{game.name}"
             end
         end
-    end
+    end 
 
-    # def valid_filter_input(input)
-    #     if input[0] && input[1] 
-    #        true
-    #     end
-    # end
-
-    # def filter_games(attribute, value)
- 
-    #    list_games(@games.map{|game| game.year_published == value})
-    # end
+    def filter_menu
+        puts "\n-------WELCOME TO THE FILTER MENU--------\n"
+        puts "TYPE A COMMAND FROM BELOW AND HIT ENTER:
+        ---price
+        ---year_published
+        ---players
+        ---playtime
+        ---age"
+        
+        input = gets.strip
     
-    # def filter_menu
-    #     puts "\n-------WELCOME TO THE FILTER MENU--------\n"
-    #     puts "TYPE the attribute followed by a comma, and then the value you'd like to filter by (limit 1):
-    #     ---price, $100 <-maximum price
-    #     ---year_published, 2002 <- year published
-    #     ---players, 1 - 5 <- min and max players
-    #     ---playtime, 60 - 90 <- min and max playtime in minutes
-    #     ---min_age, 13 <- min age"
-
-    #     input = gets.strip
-    #     input = input.split(',')
-    #     if valid_filter_input(input)
-    #     attribute = input[0].strip
-    #     value = input[1].strip  
-    #     filter_games(attribute,value)
-    #     else
-    #         puts "INVALID input, please be sure to use the formate given."
-    #     end
-    # end
+        case input 
+          when "price"
+            puts "\nEnter a maximum price ex 20"
+            input = gets.strip
+            filtered_games = @games.select{|game| game.price.to_f  <= input.to_f}
+          when "year_published"
+            puts "\nEnter a year and see the if any of the top 100 games came out that year!"
+          when "players"
+            puts "\nEnter the min and max number of players ex 1-5"
+          when "playtime"
+            puts "\nEnter the min and max playtime in minutes ex 60-120"
+          when "min_age"
+            puts "\nEnter the minnimum age requirement you'd like"
+        end
+        list_games(filtered_games)
+    end
 
 
     def menu
@@ -65,7 +62,9 @@ class BoardGames::CLI
 
             input = gets.strip 
 
-            if input == "list"
+            if input == "filter"
+                filter_menu
+            elsif input == "list"
                 list_games(@games, number)
             elsif input == "list more"
                 number += 10
@@ -77,7 +76,7 @@ class BoardGames::CLI
                 number -= 10 if number > 10
                 list_games(@games, number)
 
-
+            #maybe try t oput this (displaying and getting more info from games) to it's own method, so it could be used in the filter menu
             elsif @games[input.to_i - 1] && input.to_i != 0 && input.to_i <= number
                game = @games[input.to_i - 1] 
                puts "\n 'CLICK TO SEE IMAGE #{game.image}"
@@ -91,7 +90,7 @@ class BoardGames::CLI
                puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE 'more', or type 'list' to view games again \n\n"
 
                input = gets.strip
-               
+
                if input.downcase == "more"
                 puts "\n#{game.description} \n\n"
                 puts "\nCheck the rulebook out here: #{game.rules_url}\n\n"
