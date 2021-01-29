@@ -27,10 +27,10 @@ class BoardGames::CLI
     end 
 
     def help_message
-        puts "\n- #{'list'.green} = reprint curretn game list in console"
+        puts "\n- #{'filter'.green} = opens menu to filter game list"
+        puts "- #{'list'.green} = reprint current game list in console"
          puts "- #{'list more'.green} = adds 10 games to the current game list"
          puts "- #{'less'.green}= removes 10 games from current game list, minnimum of 10"
-         puts "- #{'filter'.green} = opens menu to filter game list"
          puts "- #{'exit'.green} = leaves filtered list, if filter is applied, else exits CLI and clears console"
     end
 
