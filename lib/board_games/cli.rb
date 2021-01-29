@@ -26,6 +26,14 @@ class BoardGames::CLI
         end
     end 
 
+    def help_message
+        puts "\n- #{'list'.green} = reprint curretn game list in console"
+         puts "- #{'list more'.green} = adds 10 games to the current game list"
+         puts "- #{'less'.green}= removes 10 games from current game list, minnimum of 10"
+         puts "- #{'filter'.green} = opens menu to filter game list"
+         puts "- #{'exit'.green} = leaves filtered list, if filter is applied, else exits CLI and clears console"
+    end
+
     def filter_menu
         puts "\n-------WELCOME TO THE FILTER MENU--------\n".green
         puts "TYPE A COMMAND FROM BELOW AND HIT ENTER:
@@ -35,7 +43,8 @@ class BoardGames::CLI
         ---playtime
         ---age".yellow
         
-        input = gets.strip
+        input = gets.strip.downcase
+        input_valid = true
     
         case input 
           when "price"
@@ -58,39 +67,41 @@ class BoardGames::CLI
             pt[0].to_i >= input[0].to_i && pt[1].to_i <= input[1].to_i}
           when "age"
             puts "\nType the minnimum age requirement you'd like"
-            input = gets.strip
-            filtered_games = @games.select{|game| game.min_age.to_i  <= input.to_i}
+            input = gets.strip.downcase
+            filtered_games ||= @games.select{|game| game.min_age.to_i  <= input.to_i}
           when "help"
-            puts "/n- list <- reprint curretn game list in console"
-            puts "- list more <- adds 10 games to the current game list"
-            puts "- less <- removes 10 games from current game list, minnimum of 10"
-            puts "- filter <- opens menu to filter game list"
-            puts "- exit <- leaves filtered list, if filter is applied, else exits CLI and clears console"
+            help_message
+            filter_menu
           else 
+            input_valid = false
             puts "INVALID INPUT".red
             puts "Type #{'help'.yellow} for a list of commands"
+            filter_menu
         end
-        list_games(filtered_games)
-        menu(filtered_games, true)
+        if input_valid
+            list_games(filtered_games)
+            menu(filtered_games, filter_mode = 1)
+        end
     end
 
-
-    def menu(games, filter_mode = false)
+    def menu(games, filter_mode = 0)
         number = 10 #default 10, if 'more'/'less' is typed, add/remove 10 to this to change the length of game list.
-        input  = nil
+        filter_mode == 2 ? input = "exit" : input = nil # start with nil input to allow while loop to begin, or set to exit after exiting so the loop will end
+
         while input != "exit" 
-        puts "\nEnter the number of the game you'd like to know more about:"
+        puts "\nEnter the number of the game you'd like to know more about, or type #{'help'.yellow} for a list of commands:"
 
             input = gets.strip.downcase 
 
             if input == "filter"
-                filter_menu
+                if filter_mode == 0
+                   filter_menu
+                else 
+                    filter_menu
+                    input = "exit"
+                end
             elsif input == "help"
-                puts "\n- list <- reprint curretn game list in console".yellow
-                puts "- list more <- adds 10 games to the current game list".yellow
-                puts "- less <- removes 10 games from current game list, minnimum of 10".yellow
-                puts "- filter <- opens menu to filter game list".yellow
-                puts "- exit <- leaves filtered list, if filter is applied, else exits CLI and clears console".yellow
+                help_message
             elsif input == "list"
                 list_games(games, number)
             elsif input == "list more"
@@ -102,13 +113,14 @@ class BoardGames::CLI
             elsif input == "less"
                 number -= 10 if number > 10
                 list_games(games, number)
-            elsif input == "exit" && filter_mode == false
-                system('clear')
-            elsif input == "exit" && filter_mode == true
+            elsif input == "exit" && filter_mode == 0 || filter_mode == 2
+                system("clear")
+            elsif input == "exit" && filter_mode == 1
                 list_games(@games)
-                menu(@games, false)
+                puts "Exited filtered list".red
+                menu(@games, filter_mode = 2)
             #maybe try t oput this (displaying and getting more info from games) to it's own method, so it could be used in the filter menu
-            elsif games[input.to_i - 1] && input.to_i != 0 && input.to_i <= number
+            elsif games[input.to_i - 1] && input.to_i !=0 && input.to_i <= number
                game = games[input.to_i - 1] 
                puts "\n 'CLICK TO SEE IMAGE #{game.image.cyan}"
                puts "\nName: #{game.name}" 
@@ -118,15 +130,17 @@ class BoardGames::CLI
                puts "Playtime: #{game.playtime} minutes" 
                puts "Ages: #{game.min_age}+"
                
-               puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE #{"'more'".yellow} or press #{"'ENTER'".green} and type a new number.\n\n"
+               puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE #{"'more'".yellow} or press #{"'ENTER'".green} and type a new command.\n\n"
 
-               input = gets.strip
+               input = gets.strip.downcase
 
-               if input.downcase == "more"
+               if input == "more"
                 puts "\t\t\t=== #{game.name.upcase.bold.green.underline} ==="
                 puts "\n#{game.description} \n\n"
                 puts "\nCheck the rulebook out here: #{game.rules_url.cyan}\n\n" if game.rules_url
-               elsif input.downcase == "list"
+               elsif input == "help"
+                help_message
+               elsif input == "list"
                 list_games(games, number)
                end
             else
