@@ -88,7 +88,8 @@ class BoardGames::CLI
         number = 10 #default 10, if 'more'/'less' is typed, add/remove 10 to this to change the length of game list.
         filter_mode == 2 ? input = "exit" : input = nil # start with nil input to allow while loop to begin, or set to exit after exiting so the loop will end
 
-        while input != "exit" 
+        while input != "exit"
+        puts "\n\t\tType 'exit' to remove filter".blue if filter_mode == 1
         puts "\nEnter the number of the game you'd like to know more about, or type #{'help'.yellow} for a list of commands:"
 
             input = gets.strip.downcase 
@@ -105,7 +106,7 @@ class BoardGames::CLI
             elsif input == "list"
                 list_games(games, number)
             elsif input == "list more"
-                number += 10
+                number + 10 <= games.length - 1 ? number += 10 : number = games.length - 1
                 list_games(games, number)
                 if number == 100
                     puts "\n!!!THE LIST ONLY GOES TO 100!!!\n".yellow
@@ -117,7 +118,7 @@ class BoardGames::CLI
                 system("clear")
             elsif input == "exit" && filter_mode == 1
                 list_games(@games)
-                puts "Exited filtered list".red
+                puts "\t\tDisplaying unfiltered list".blue
                 menu(@games, filter_mode = 2)
             #maybe try t oput this (displaying and getting more info from games) to it's own method, so it could be used in the filter menu
             elsif games[input.to_i - 1] && input.to_i !=0 && input.to_i <= number
