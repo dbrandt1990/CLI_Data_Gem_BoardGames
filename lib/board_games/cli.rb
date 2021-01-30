@@ -5,10 +5,10 @@ require 'colorize'
 class BoardGames::CLI 
 
     def call 
-     create_games_list
-     list_games
-     menu
-     goodbye
+        create_games_list
+        list_games
+        menu
+        goodbye
     end
 
     def create_games_list 
@@ -21,7 +21,7 @@ class BoardGames::CLI
         puts "\n\t======== Current Top #{number.to_s.green} boardgames ========".bold
         @games.each_with_index do |game, i|
             if i < number
-            puts "\t\t\s\s\s\s#{i + 1}. #{game.name}"
+                puts "\t\t\s\s\s\s#{i + 1}. #{game.name}"
             end
         end
     end 
@@ -35,10 +35,10 @@ class BoardGames::CLI
 
 
     def menu
-        number = 10 #default 10, if 'more'/'less' is typed, add/remove 10 to this to change the length of game list.
+        number = 10 #default 10, if 'more'/'less' is typed, add/remove 10 to change the length of game list.
         input = nil #set input so while loop will start
         while input != "exit"
-        puts "\nEnter the number of the game you'd like to know more about, or type #{'help'.yellow} for a list of commands:"
+            puts "\nEnter the number of the game you'd like to know more about, or type #{'help'.yellow} for a list of commands:"
 
             input = gets.strip.downcase 
 
@@ -57,28 +57,29 @@ class BoardGames::CLI
                 list_games(number)
             elsif input == "exit"
                 system("clear")
+
             elsif @games[input.to_i - 1] && input.to_i !=0 && input.to_i <= number
-               game = @games[input.to_i - 1] 
-               puts "\n 'CLICK TO SEE IMAGE #{game.image.cyan}"
-               puts "\nName: #{game.name}" 
-               puts "Price: $#{game.price}"
-               puts "Year: #{game.year_published}"
-               puts "Players: #{game.players}"
-               puts "Playtime: #{game.playtime} minutes" 
-               puts "Ages: #{game.min_age}+"
-               
-               puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE #{"'more'".yellow} or press #{"'ENTER'".green} and type a new command.\n\n"
+                game = @games[input.to_i - 1] 
+                puts "\n 'CLICK TO SEE IMAGE #{game.image.cyan}"
+                puts "\nName: #{game.name}" 
+                puts "Price: $#{game.price}"
+                puts "Year: #{game.year_published}"
+                puts "Players: #{game.players}"
+                puts "Playtime: #{game.playtime} minutes" 
+                puts "Ages: #{game.min_age}+"
+                
+                puts "\nTO FIND OUT MORE ABOUT THIS GAME, TYPE #{"'more'".yellow} or press #{"'ENTER'".green} and type a new command.\n\n"
+ 
+                input = gets.strip.downcase
 
-               input = gets.strip.downcase
-
-               if input == "more"
-                puts "\t\t\t=== #{game.name.upcase.bold.green.underline} ==="
-                puts "\n#{game.description} \n\n"
-                puts "\nCheck the rulebook out here: #{game.rules_url.cyan}\n\n" if game.rules_url
-               elsif input == "help"
-                help_message
-               elsif input == "list"
-                list_games(number)
+                if input == "more"
+                    puts "\t\t\t=== #{game.name.upcase.bold.green.underline} ==="
+                    puts "\n#{game.description} \n\n"
+                    puts "\nCheck the rulebook out here: #{game.rules_url.cyan}\n\n" if game.rules_url
+                elsif input == "help"
+                    help_message
+                elsif input == "list"
+                    list_games(number)
                end
             else
                 puts "INVALID INPUT".red
@@ -89,6 +90,5 @@ class BoardGames::CLI
 
     def goodbye 
         puts "\t\t\ === See you next time! ===".cyan
-        String.colors
     end
 end
