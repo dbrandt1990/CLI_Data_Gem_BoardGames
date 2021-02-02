@@ -44,17 +44,21 @@ class BoardGames::CLI
 
             if input == "help"
                 help_message
+
             elsif input == "list"
                 list_games(number)
+
             elsif input == "list more"
                 number += 10
                 list_games(number)
                 if number == 100
                     puts "\n!!!THE LIST ONLY GOES TO 100!!!\n".yellow
                 end
+                
             elsif input == "less"
                 number -= 10 if number > 10
                 list_games(number)
+
             elsif input == "exit"
                 system("clear")
 
